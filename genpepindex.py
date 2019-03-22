@@ -36,20 +36,32 @@ def get_peps_from_dir(path):
         abs_file_path = os.path.join(path, file_path)
         if not os.path.isfile(abs_file_path):
             continue
-        if file_path.startswith("pep-") and file_path.endswith((".txt", "rst")):
-            with codecs.open(abs_file_path, 'r', encoding='UTF-8') as pep_file:
-                try:
-                    pep = PEP(pep_file)
-                    if pep.number != int(file_path[4:-4]):
-                        raise PEPError('PEP number does not match file name',
-                                        file_path, pep.number)
-                    peps.append(pep)
-                except PEPError as e:
-                    errmsg = "Error processing PEP %s (%s), excluding:" % \
-                        (e.number, e.filename)
-                    print(errmsg, e, file=sys.stderr)
-                    sys.exit(1)
-    peps.sort(key=attrgetter('number'))
+
+        looks_like_pep = (
+            file_path.startswith("pep-") and
+            file_path.endswith((".txt", "rst"))
+        )
+        if not looks_like_pep:
+            continue
+
+        with codecs.open(abs_file_path, "r", encoding="UTF-8") as pep_file:
+            try:
+                pep = PEP(pep_file)
+                if pep.number != int(file_path[4:-4]):
+                    raise PEPError(
+                        "PEP number does not match file name",
+                        file_path,
+                        pep.number,
+                    )
+                peps.append(pep)
+            except PEPError as e:
+                errmsg = "Error processing PEP {} ({}), excluding:".format(
+                    e.number, e.filename
+                )
+                print(errmsg, e, file=sys.stderr)
+                sys.exit(1)
+
+    peps.sort(key=attrgetter("number"))
     return peps
 
 
