@@ -27,37 +27,43 @@ from pep0.output import write_pep0
 from pep0.pep import PEP, PEPError
 
 
+def get_peps_from_dir(path):
+    peps = []
+    for file_path in os.listdir(path):
+        if file_path.startswith("pep-0000."):
+            continue
+
+        abs_file_path = os.path.join(path, file_path)
+        if not os.path.isfile(abs_file_path):
+            continue
+        if file_path.startswith("pep-") and file_path.endswith((".txt", "rst")):
+            with codecs.open(abs_file_path, 'r', encoding='UTF-8') as pep_file:
+                try:
+                    pep = PEP(pep_file)
+                    if pep.number != int(file_path[4:-4]):
+                        raise PEPError('PEP number does not match file name',
+                                        file_path, pep.number)
+                    peps.append(pep)
+                except PEPError as e:
+                    errmsg = "Error processing PEP %s (%s), excluding:" % \
+                        (e.number, e.filename)
+                    print(errmsg, e, file=sys.stderr)
+                    sys.exit(1)
+    peps.sort(key=attrgetter('number'))
+    return peps
+
+
 def main(argv):
     if not argv[1:]:
         path = '.'
     else:
         path = argv[1]
 
-    peps = []
     if os.path.isdir(path):
-        for file_path in os.listdir(path):
-            if file_path.startswith('pep-0000.'):
-                continue
-            abs_file_path = os.path.join(path, file_path)
-            if not os.path.isfile(abs_file_path):
-                continue
-            if file_path.startswith("pep-") and file_path.endswith((".txt", "rst")):
-                with codecs.open(abs_file_path, 'r', encoding='UTF-8') as pep_file:
-                    try:
-                        pep = PEP(pep_file)
-                        if pep.number != int(file_path[4:-4]):
-                            raise PEPError('PEP number does not match file name',
-                                           file_path, pep.number)
-                        peps.append(pep)
-                    except PEPError as e:
-                        errmsg = "Error processing PEP %s (%s), excluding:" % \
-                            (e.number, e.filename)
-                        print(errmsg, e, file=sys.stderr)
-                        sys.exit(1)
-        peps.sort(key=attrgetter('number'))
+        peps = get_peps_from_dir(path)
     elif os.path.isfile(path):
         with open(path, 'r') as pep_file:
-            peps.append(PEP(pep_file))
+            peps = [PEP(pep_file)]
     else:
         raise ValueError("argument must be a directory or file path")
 
