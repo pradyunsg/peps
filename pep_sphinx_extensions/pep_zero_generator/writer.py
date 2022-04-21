@@ -113,6 +113,7 @@ class PEPZeroWriter:
         self.emit_newline()
 
     def write_pep0(self, peps: list[PEP]):
+        assert sorted(peps) == peps
 
         # PEP metadata
         self.emit_text(header)
