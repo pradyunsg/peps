@@ -1,4 +1,4 @@
-"""Holds type and status constants for PEP 0 generation."""
+"""Holds constants for PEP index generation."""
 
 STATUS_ACCEPTED = "Accepted"
 STATUS_ACTIVE = "Active"
@@ -32,3 +32,6 @@ TYPE_STANDARDS = "Standards Track"
 TYPE_VALUES = {TYPE_STANDARDS, TYPE_INFO, TYPE_PROCESS}
 # Active PEPs can only be for Informational or Process PEPs.
 ACTIVE_ALLOWED = {TYPE_PROCESS, TYPE_INFO}
+
+# Valid values for the Track header.
+TRACK_VALUES = {"Packaging"}

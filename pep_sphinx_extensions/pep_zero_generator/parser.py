@@ -15,6 +15,7 @@ from pep_sphinx_extensions.pep_zero_generator.constants import SPECIAL_STATUSES
 from pep_sphinx_extensions.pep_zero_generator.constants import STATUS_ACTIVE
 from pep_sphinx_extensions.pep_zero_generator.constants import STATUS_PROVISIONAL
 from pep_sphinx_extensions.pep_zero_generator.constants import STATUS_VALUES
+from pep_sphinx_extensions.pep_zero_generator.constants import TRACK_VALUES
 from pep_sphinx_extensions.pep_zero_generator.constants import TYPE_STANDARDS
 from pep_sphinx_extensions.pep_zero_generator.constants import TYPE_VALUES
 from pep_sphinx_extensions.pep_zero_generator.errors import PEPError
@@ -69,6 +70,12 @@ class PEP:
         self.pep_type: str = metadata["Type"]
         if self.pep_type not in TYPE_VALUES:
             _raise_pep_error(self, f"{self.pep_type} is not a valid Type value", pep_num=True)
+
+        # Track
+        track = metadata["Track"]
+        if track is not None and track not in TRACK_VALUES:
+            _raise_pep_error(self, f"{track} is not a valid Track value", pep_num=True)
+        self.track: str | None = track
 
         # Status
         status = metadata["Status"]
