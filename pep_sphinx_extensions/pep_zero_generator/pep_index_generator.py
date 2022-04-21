@@ -32,11 +32,13 @@ if TYPE_CHECKING:
 
 
 def create_pep_json(peps: list[parser.PEP]) -> str:
+    assert sorted(peps) == peps
     pep_dict = {
         pep.number: {
             "title": pep.title,
             "authors": ", ".join(pep.authors.nick for pep.authors in pep.authors),
             "discussions_to": pep.discussions_to,
+            "track": pep.track,
             "status": pep.status,
             "type": pep.pep_type,
             "created": pep.created,
@@ -48,7 +50,7 @@ def create_pep_json(peps: list[parser.PEP]) -> str:
             "superseded_by": pep.superseded_by,
             "url": f"https://peps.python.org/pep-{pep.number:0>4}/",
         }
-        for pep in sorted(peps)
+        for pep in peps
     }
     return json.dumps(pep_dict, indent=1)
 
@@ -76,8 +78,9 @@ def create_pep_zero(app: Sphinx, env: BuildEnvironment, docnames: list[str]) -> 
         if pep_pat.match(str(file_path)) and file_path.suffix in {".txt", ".rst"}:
             pep = parser.PEP(path.joinpath(file_path).absolute(), authors_overrides)
             peps.append(pep)
+    peps.sort()
 
-    pep0_text = writer.PEPZeroWriter().write_pep0(sorted(peps))
+    pep0_text = writer.PEPZeroWriter().write_pep0(peps)
     Path(f"{pep_zero_filename}.rst").write_text(pep0_text, encoding="utf-8")
 
     # Add to files for builder
