@@ -8,7 +8,7 @@ Status: Draft
 Type: Standards Track
 Content-Type: text/x-rst
 BDFL-Delegate: Donald Stufft <donald@stufft.io>
-Discussions-To: https://discuss.python.org/t/AAAAAA/999999
+Discussions-To: https://discuss.python.org/t/15553
 Created: 04-May-2022
 
 
