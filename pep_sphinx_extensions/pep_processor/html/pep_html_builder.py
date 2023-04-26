@@ -31,8 +31,7 @@ class FileBuilder(StandaloneHTMLBuilder):
             title = ""
 
         # source filename
-        file_is_rst = Path(self.env.srcdir, docname + ".rst").exists()
-        source_name = f"{docname}.rst" if file_is_rst else f"{docname}.txt"
+        source_name = f"{docname}.rst"
 
         # local table of contents
         toc_tree = self.env.tocs[docname].deepcopy()
