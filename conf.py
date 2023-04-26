@@ -37,8 +37,6 @@ include_patterns = [
     "pep-????.txt",
     # PEP ancillary files
     "pep-????/*.rst",
-    # Documentation
-    "docs/*.rst",
 ]
 exclude_patterns = [
     # PEP Template
