@@ -33,7 +33,7 @@ if TYPE_CHECKING:
 
 def _parse_peps() -> list[parser.PEP]:
     # Read from root directory
-    path = Path(".")
+    path = Path("./peps")
     peps: list[parser.PEP] = []
 
     for file_path in path.iterdir():
@@ -42,7 +42,7 @@ def _parse_peps() -> list[parser.PEP]:
         if file_path.match("pep-0000*"):
             continue  # Skip pre-existing PEP 0 files
         if file_path.match("pep-????.???") and file_path.suffix in {".txt", ".rst"}:
-            pep = parser.PEP(path.joinpath(file_path).absolute())
+            pep = parser.PEP(file_path.resolve())
             peps.append(pep)
 
     return sorted(peps)
@@ -56,7 +56,7 @@ def create_pep_zero(app: Sphinx, env: BuildEnvironment, docnames: list[str]) -> 
     peps = _parse_peps()
 
     pep0_text = writer.PEPZeroWriter().write_pep0(peps, builder=env.settings["builder"])
-    pep0_path = subindices.update_sphinx("pep-0000", pep0_text, docnames, env)
+    pep0_path = subindices.update_sphinx("peps/pep-0000", pep0_text, docnames, env)
     peps.append(parser.PEP(pep0_path))
 
     subindices.generate_subindices(SUBINDICES_BY_TOPIC, peps, docnames, env)

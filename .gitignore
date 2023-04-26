@@ -3,6 +3,7 @@ pep-0000.txt
 pep-0000.rst
 pep-????.html
 peps.rss
+peps/topic
 __pycache__
 *.pyc
 *.pyo
@@ -14,5 +15,4 @@ __pycache__
 *.swp
 /build
 /package
-/topic
 /venv

@@ -62,7 +62,8 @@ if __name__ == "__main__":
     args = create_parser()
 
     root_directory = Path(".").absolute()
-    source_directory = root_directory
+    source_directory = root_directory / "peps"
+    conf_directory = root_directory
     build_directory = root_directory / args.output_dir
     doctree_directory = build_directory / ".doctrees"
 
@@ -80,7 +81,7 @@ if __name__ == "__main__":
 
     app = Sphinx(
         source_directory,
-        confdir=source_directory,
+        confdir=conf_directory,
         outdir=build_directory,
         doctreedir=doctree_directory,
         buildername=sphinx_builder,
