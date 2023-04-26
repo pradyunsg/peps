@@ -138,7 +138,7 @@ repos:
         entry: '(?<=\n)Title:(?:(?! +\S.{1,78}\n(?=[A-Z])))'
         args: ['--multiline']
         files: '^peps/pep-\d+\.(rst|txt)$'
-        exclude: '^pep-(0499)\.(rst|txt)$'
+        exclude: '^peps/pep-(0499)\.(rst|txt)$'
         types: [text]
 
       - id: validate-author
@@ -161,7 +161,7 @@ repos:
         language: pygrep
         entry: '^(PEP|BDFL)-Delegate: (?:(?! *[^!#$%&()*+,/:;<=>?@\[\\\]\^_`{|}~]+( <[\w!#$%&''*+\-/=?^_{|}~.]+(@| at )[\w\-.]+\.[A-Za-z0-9]+>)?$))'
         files: '^peps/pep-\d+\.(rst|txt)$'
-        exclude: '^pep-(0451)\.(rst|txt)$'
+        exclude: '^peps/pep-(0451)\.(rst|txt)$'
         types: [text]
 
       - id: validate-discussions-to
@@ -241,7 +241,7 @@ repos:
         language: pygrep
         entry: '(dev/peps|peps\.python\.org)/pep-\d+'
         files: '^peps/pep-\d+\.(rst|txt)$'
-        exclude: '^pep-(0009|0287|0676|0684|8001)\.(rst|txt)$'
+        exclude: '^peps/pep-(0009|0287|0676|0684|8001)\.(rst|txt)$'
         types: [text]
 
       - id: check-direct-rfc-links
